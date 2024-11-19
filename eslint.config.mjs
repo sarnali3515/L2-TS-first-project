@@ -18,11 +18,11 @@ export default [
 
   // eslint
   {
-    extends: [
-      'eslint:recommended',
-      'plugin:@typescript-eslint/recommended',
-      'plugin:prettier/recommended',
-    ],
+    // extends: [
+    //   'eslint:recommended',
+    //   'plugin:@typescript-eslint/recommended',
+    //   'plugin:prettier/recommended',
+    // ],
     ignores: ['node_modules', 'dist'],
     rules: {
       'no-unused-vars': 'error',
