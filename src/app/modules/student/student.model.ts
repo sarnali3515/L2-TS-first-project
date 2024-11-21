@@ -24,7 +24,7 @@ const userNameSchema = new Schema<UserName>({
   },
   middleName: {
     type: String,
-    required: [true, 'Middle Name is required'],
+
     trim: true,
   },
   lastName: {
