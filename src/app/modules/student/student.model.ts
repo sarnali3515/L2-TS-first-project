@@ -11,7 +11,6 @@ import {
   TUserName,
 } from './student.interface';
 import config from '../../config';
-import { NextFunction } from 'express';
 
 const userNameSchema = new Schema<TUserName>({
   firstName: {
@@ -155,6 +154,10 @@ const studentSchema = new Schema<TStudent, StudentModel>({
     enum: ['active', 'blocked'],
     default: 'active',
   },
+  isDeleted: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 // pre save middleware/ hook:will work on create() save()
@@ -174,6 +177,26 @@ studentSchema.pre('save', async function (next) {
 studentSchema.post('save', function (doc, next) {
   doc.password = '';
   // console.log( 'post hook: we saved our data');
+  next();
+});
+
+// Query middleware
+studentSchema.pre('find', function (next) {
+  this.find({
+    isDeleted: { $ne: true },
+  });
+  next();
+});
+
+studentSchema.pre('findOne', function (next) {
+  this.find({
+    isDeleted: { $ne: true },
+  });
+  next();
+});
+
+studentSchema.pre('aggregate', function (next) {
+  this.pipeline().unshift({ $match: { isDeleted: { $ne: true } } });
   next();
 });
 
