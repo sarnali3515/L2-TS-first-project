@@ -30,11 +30,16 @@ const createStudent = async (req: Request, res: Response) => {
       message: 'Student is created Successfully',
       data: result,
     });
-  } catch (err: any) {
+  } catch (err: unknown) {
+    let errorMessage = 'Something went wrong';
+    if (err instanceof Error) {
+      errorMessage = err.message;
+    }
+
     res.status(500).json({
       success: false,
-      message: err.message || 'Something went wrong',
-      error: err,
+      message: errorMessage,
+      error: err, // Avoid directly exposing `err` in production
     });
   }
 };
@@ -48,11 +53,16 @@ const getAllStudents = async (req: Request, res: Response) => {
       message: 'Students are retrieved Successfully',
       data: result,
     });
-  } catch (err: any) {
+  } catch (err: unknown) {
+    let errorMessage = 'Something went wrong';
+    if (err instanceof Error) {
+      errorMessage = err.message;
+    }
+
     res.status(500).json({
       success: false,
-      message: err.message || 'Something went wrong',
-      error: err,
+      message: errorMessage,
+      error: err, // Avoid directly exposing `err` in production
     });
   }
 };
@@ -67,11 +77,16 @@ const getSingleStudent = async (req: Request, res: Response) => {
       message: 'Student is retrieved Successfully',
       data: result,
     });
-  } catch (err: any) {
+  } catch (err: unknown) {
+    let errorMessage = 'Something went wrong';
+    if (err instanceof Error) {
+      errorMessage = err.message;
+    }
+
     res.status(500).json({
       success: false,
-      message: err.message || 'Something went wrong',
-      error: err,
+      message: errorMessage,
+      error: err, // Avoid directly exposing `err` in production
     });
   }
 };
@@ -86,11 +101,16 @@ const deleteStudent = async (req: Request, res: Response) => {
       message: 'Student is deleted Successfully',
       data: result,
     });
-  } catch (err: any) {
+  } catch (err: unknown) {
+    let errorMessage = 'Something went wrong';
+    if (err instanceof Error) {
+      errorMessage = err.message;
+    }
+
     res.status(500).json({
       success: false,
-      message: err.message || 'Something went wrong',
-      error: err,
+      message: errorMessage,
+      error: err, // Avoid directly exposing `err` in production
     });
   }
 };
