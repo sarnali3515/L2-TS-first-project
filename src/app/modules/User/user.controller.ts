@@ -1,7 +1,11 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { UserServices } from './user.service';
 
-const createStudent = async (req: Request, res: Response) => {
+const createStudent = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const { password, student: studentData } = req.body;
 
@@ -18,16 +22,7 @@ const createStudent = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (err: unknown) {
-    let errorMessage = 'Something went wrong';
-    if (err instanceof Error) {
-      errorMessage = err.message;
-    }
-
-    res.status(500).json({
-      success: false,
-      message: errorMessage,
-      error: err,
-    });
+    next(err);
   }
 };
 
