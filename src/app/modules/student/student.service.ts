@@ -1,21 +1,7 @@
+import mongoose from 'mongoose';
 import { Student } from './student.model';
-
-// const createStudentIntoDB = async (studentData: TStudent) => {
-//   if (await Student.isUserExists(studentData.id)) {
-//     throw new Error('User already exists');
-//   }
-//   const result = await Student.create(studentData); //built in static method
-
-//   // const student = new Student(studentData); // create an instance
-
-//   // if (await student.isUserExists(studentData.id)) {
-//   //   throw new Error('User already exists');
-//   // }
-
-//   // const result = await student.save(); // built in instance method
-
-//   return result;
-// };
+import AppError from '../../errors/AppError';
+import { User } from '../User/user.model';
 
 const getAllStudentFromDB = async () => {
   const result = await Student.find()
@@ -44,8 +30,38 @@ const getSingleStudentFromDB = async (id: string) => {
 };
 
 const deleteStudentFromDB = async (id: string) => {
-  const result = await Student.updateOne({ id }, { isDeleted: true });
-  return result;
+  const session = await mongoose.startSession();
+
+  try {
+    session.startTransaction();
+    const deletedStudent = await Student.findOneAndUpdate(
+      { id },
+      { isDeleted: true },
+      { new: true, session },
+    );
+
+    if (!deletedStudent) {
+      throw new AppError(400, 'Failed to delete student');
+    }
+
+    const deletedUser = await User.findOneAndUpdate(
+      { id },
+      { isDeleted: true },
+      { new: true, session },
+    );
+
+    if (!deletedUser) {
+      throw new AppError(400, 'Failed to delete user');
+    }
+
+    await session.commitTransaction();
+    session.endSession();
+
+    return deletedStudent;
+  } catch (err) {
+    await session.abortTransaction();
+    await session.endSession();
+  }
 };
 
 export const StudentServices = {
