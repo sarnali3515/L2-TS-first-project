@@ -12,7 +12,6 @@ app.use(cors());
 // application route
 app.use('/api/v1', router);
 
-//just example
 // const getAController = (req: Request, res: Response) => {
 //   const a = 10;
 //   res.send(a);

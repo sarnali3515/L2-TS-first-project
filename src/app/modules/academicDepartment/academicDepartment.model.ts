@@ -14,6 +14,7 @@ const academicDepartmentSchema = new Schema<TAcaDemicDepartment>(
       ref: 'AcademicFaculty',
     },
   },
+
   {
     timestamps: true,
   },

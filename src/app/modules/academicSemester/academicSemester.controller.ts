@@ -53,6 +53,7 @@ const updateAcademicSemester = catchAsync(async (req, res) => {
     data: result,
   });
 });
+
 export const AcademicSemesterControllers = {
   createAcademicSemester,
   getAllAcademicSemesters,

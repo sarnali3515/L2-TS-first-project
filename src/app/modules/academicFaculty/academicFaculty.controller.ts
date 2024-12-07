@@ -53,6 +53,7 @@ const updateAcademicFaculty = catchAsync(async (req, res) => {
     data: result,
   });
 });
+
 export const AcademicFacultyControllers = {
   createAcademicFaculty,
   getAllAcademicFaculties,

@@ -56,6 +56,7 @@ const updateAcademicDepartment = catchAsync(async (req, res) => {
     data: result,
   });
 });
+
 export const AcademicDepartmentControllers = {
   createAcademicDepartment,
   getAllAcademicDepartments,
