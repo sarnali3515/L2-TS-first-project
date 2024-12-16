@@ -12,5 +12,18 @@ router.post(
   ),
   SemesterRegistrationController.createSemesterRegistration,
 );
+router.get(
+  '/:id',
+  SemesterRegistrationController.getSingleSemesterRegistration,
+);
+router.get('/', SemesterRegistrationController.getAllSemesterRegistrations);
+
+router.patch(
+  '/:id',
+  validateRequest(
+    SemesterRegistrationValidations.updateSemesterRegistrationValidationSchema,
+  ),
+  SemesterRegistrationController.updateSemesterRegistration,
+);
 
 export const semesterRegistrationRoutes = router;
