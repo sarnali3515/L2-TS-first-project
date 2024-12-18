@@ -2,17 +2,24 @@ import express from 'express';
 import validateRequest from '../../middlewares/validateRequest';
 import { CourseValidation } from './course.validation';
 import { CourseControllers } from './course.controller';
+import auth from '../../middlewares/auth';
+import { USER_ROLE } from '../User/user.constant';
 
 const router = express.Router();
 
 router.post(
   '/create-course',
+  auth(USER_ROLE.admin),
   validateRequest(CourseValidation.createCourseValidationSchema),
   CourseControllers.createCourse,
 );
 router.get('/', CourseControllers.getAllCourses);
 
-router.get('/:id', CourseControllers.getSingleCourse);
+router.get(
+  '/:id',
+  auth(USER_ROLE.admin, USER_ROLE.faculty, USER_ROLE.faculty),
+  CourseControllers.getSingleCourse,
+);
 
 router.patch(
   '/:id',
